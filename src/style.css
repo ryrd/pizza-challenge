@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.border-test {
+    @apply border border-red-400
+}
+.border-test2 {
+    @apply border border-blue-600
+}
