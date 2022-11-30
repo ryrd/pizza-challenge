@@ -5,7 +5,7 @@ import PizzaDisplay from './components/PizzaDisplay.vue';
 
 import {data, topping} from './Data'
 
-console.log({data, topping})
+// console.log({data, topping})
 const titles = data.map(d => d.name)
 
 </script>
@@ -13,7 +13,7 @@ const titles = data.map(d => d.name)
 <template>
   <div class="bg-white h-screen w-screen flex flex-col">
     <Header :titles="titles"/>
-    <pizzaDisplay/>
+    <pizzaDisplay :data="data"/>
   </div>
 </template>
 

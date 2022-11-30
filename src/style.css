@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body{
+    overflow: hidden;
+}
 .border-test {
     @apply border border-red-400
 }
