@@ -20,6 +20,7 @@
             
             <div class="absolute h-[90%] top-0 left-0 flex items-center t-1/2 mt-[3%]"
             :class="`w-[${100*data.length}%]`"
+            v-touch:tap="swiped()"
             ref="pizzaSlider">
 
                 <div v-for="pizza in data" :key="pizza.name"
@@ -29,20 +30,20 @@
 
             </div>
             
-            <div class="absolute left-0 w-screen h-full flex justify-around items-center">
+            <!-- <div class="absolute left-0 w-screen h-full flex justify-around items-center">
                 <button class="bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 -translate-x-4 border border-black border-opacity-5">
                     <img src="../assets/minus.svg" class="w-[80%]">
                 </button>
                 <button class="bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 translate-x-4 border border-black border-opacity-5">
                     <img src="../assets/plus.svg" class="w-[80%]">
                 </button>
-            </div>
+            </div> -->
 
         </div>
 
         <div class="flex justify-center items-center pt-12">
             <h2 class="text-[10vw] font-fancy font-bold text-4xl">
-                {{data[active].price + addedSizePrice}}
+                {{data[display].price + addedSizePrice}}
             </h2>
         </div>
 
@@ -69,7 +70,10 @@
 
 <script setup lang="ts">
 import {ref, onMounted} from 'vue';
+import {useDisplayStore} from '../store/displayStore'
+
 import gsap from 'gsap';
+
 
 interface props {
     data: Array<{
@@ -79,19 +83,16 @@ interface props {
     }>
 }
 const {data} = defineProps<props>()
+const {display} = useDisplayStore()
 
 const pizzaSlider = ref<HTMLDivElement|null>(null)
 const plate = ref<HTMLImageElement|null>(null)
 const pizzaRef = ref<HTMLImageElement|null>(null)
 const pizzaResizeAnim = gsap.timeline();
-const active = 0
 
 type sizeType = 'S' | 'M' | 'L'
-
 const pizzaSize = ref<sizeType>('S')
-
 const addedSizePrice = ref<number>(0)
-
 const setSize = (newSize: sizeType , increasePrice: number) => {
     pizzaSize.value = newSize
     addedSizePrice.value = increasePrice
@@ -142,14 +143,19 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
     }
 }
 
+const swiped = () => {
+    console.log('swiped')
+}
+
+const tes = () => {
+    console.log('tesssssssssssss')
+}
+
 // onMounted(() => {
 //     gsap.to(pizzaSlider.value, {
-//         x: `-${100*active}vw`,
+//         x: `-${100*display}vw`,
 //         ease: "power4.out",
 //         duration: .8,
 //     })
 // })
 </script>
-
-<style scoped>
-</style>

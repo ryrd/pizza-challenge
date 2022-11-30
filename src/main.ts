@@ -1,5 +1,9 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
+import { createPinia } from 'pinia'
+import Vue3TouchEvents from "vue3-touch-events";
 
-createApp(App).mount('#app')
+const pinia = createPinia()
+
+createApp(App).use(Vue3TouchEvents).use(pinia).mount('#app')
