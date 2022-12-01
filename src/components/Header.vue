@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { defineProps } from 'vue'
+import {useDisplayStore} from '../store/displayStore'
+
+const {titles} = defineProps<{titles: Array<string>}>();
+    
+const {display} = useDisplayStore()
+</script>
+
 <template>
     <header class="w-screen h-[50px] relative flex justify-center mt-7">
         <div class="relative w-screen">
@@ -11,12 +20,3 @@
              class="absolute h-[8vw] right-6">
     </header>
 </template>
-
-<script setup lang="ts">
-import { defineProps } from 'vue'
-import {useDisplayStore} from '../store/displayStore'
-
-const {titles} = defineProps<{titles: Array<string>}>();
-    
-const {display} = useDisplayStore()
-</script>

@@ -1,5 +1,4 @@
-<script setup la
-  components: { PizzaDisplay },ng="ts">
+<script setup lang="ts">
 import Header from './components/Header.vue';
 import PizzaDisplay from './components/PizzaDisplay.vue';
 
