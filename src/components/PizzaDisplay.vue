@@ -24,6 +24,7 @@ const pizzaResizeAnim = gsap.timeline();
 type sizeType = 'S' | 'M' | 'L'
 const pizzaSize = ref<sizeType>('S')
 const addedSizePrice = ref<number>(0)
+const orangeBtn = ref<HTMLButtonElement|null>(null)
 const setSize = (newSize: sizeType , increasePrice: number) => {
     pizzaSize.value = newSize
     addedSizePrice.value = increasePrice
@@ -41,6 +42,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
+                .set(orangeBtn.value, {
+                    left: '0',
+                    ease: "power4.out",
+                    duration: .8,
+                },'-=1.8')
             break
 
         case 'M':
@@ -54,6 +60,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
+                .set(orangeBtn.value, {
+                    left: '50%',
+                    ease: "power4.out",
+                    duration: .8,
+                },'-=1.8')
             break
 
         case 'L':
@@ -67,6 +78,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
+                .set(orangeBtn.value, {
+                    left: '100%',
+                    ease: "power4.out",
+                    duration: .8,
+                },'-=1.8')
             break
 
         default:
@@ -103,24 +119,25 @@ const swiped = () => {
     }
 }
 
-const slidePizza = (direction: 'left' | 'right') => {
-    gsap.to(pizzaSlider.value, {
-        scale: .9,
-        ease: "power4.out",
-        duration: .8,
-    })
-    gsap.to(pizzaSlider.value, {
-        scale: 1,
-        ease: "power4.out",
-        duration: .8,
-        delay: .3
-    })
+const sliderTimelineAnim = gsap.timeline()
 
-    gsap.to(pizzaSlider.value, {
-        x: `-${100*currentDisplay.display}vw`,
-        ease: "power4.out",
-        duration: .8,
-    })
+const slidePizza = (direction: 'left' | 'right') => {
+    sliderTimelineAnim.
+        to(pizzaRef.value, {
+            scale: .8,
+            ease: "power4.out",
+            duration: .5,
+        })
+        .to(pizzaRef.value, {
+            scale: 1,
+            ease: "power4.out",
+            duration: .5,
+        }, '-=.4')
+        .to(pizzaSlider.value, {
+            x: `-${100*currentDisplay.display}vw`,
+            ease: "power4.out",
+            duration: .8,
+        }, '<')
 
     if(direction === 'right'){
         gsap.to(plate.value, {
@@ -198,19 +215,19 @@ const slidePizza = (direction: 'left' | 'right') => {
         </div>
 
         <div class="flex justify-between items-center w-1/2 pt-3 font-fancy relative left-1/2 -translate-x-1/2">
-            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 mr-3 transition bg-transparent border border-black border-opacity-20 z-10'"
+            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 mr-3 transition bg-transparent border border-black border-opacity-20 z-10"
                     @click="setSize('S', 0)">
                 S
             </button>
-            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 m-3 transition bg-transparent border border-black border-opacity-20 z-10'"
+            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 m-3 transition bg-transparent border border-black border-opacity-20 z-10"
                     @click="setSize('M', 1)">
                 M
             </button>
-            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 ml-3 transition bg-transparent border border-black border-opacity-20 z-10'"
+            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 ml-3 transition bg-transparent border border-black border-opacity-20 z-10"
                     @click="setSize('L', 1.5)">
                 L
             </button>
-            <button class="rounded-full absolute left-0 h-10 w-10 p-3 transition duration-500 ease-in-out bg-orange-600 z-0">
+            <button class="rounded-full absolute left-0 h-10 w-10 p-3 transition duration-500 ease-in-out bg-orange-600 z-0" ref="orangeBtn">
                 &nbsp;
             </button>
         </div>
