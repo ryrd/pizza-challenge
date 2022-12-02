@@ -1,16 +1,16 @@
 const data = [
     {
-        name : 'Pizza 1',
+        name : 'Sicilian',
         price : 6.0,
         img : 'pizza1.webp'
     },
     {
-        name : 'Pizza 2',
+        name : 'NY-Style',
         price : 8.0,
         img : 'pizza2.webp'
     },
     {
-        name : 'Pizza 3',
+        name : 'Neapolitan',
         price : 9.5,
         img : 'pizza3.webp'
     },

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue';
-import SwipeListener from 'swipe-listener';
 import {useDisplayStore} from '../store/displayStore'
+// import Vue3TouchEvents from 'vue3-touch-events';
 
 import gsap from 'gsap';
 
@@ -13,10 +13,11 @@ interface props {
     }>
 }
 const {data} = defineProps<props>()
-const {display} = useDisplayStore()
+const currentDisplay = useDisplayStore()
 
 const pizzaSlider = ref<HTMLDivElement|null>(null)
 const plate = ref<HTMLImageElement|null>(null)
+const leafage = ref<HTMLDivElement|null>(null)
 const pizzaRef = ref<HTMLImageElement|null>(null)
 const pizzaResizeAnim = gsap.timeline();
 
@@ -73,35 +74,88 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
     }
 }
 
-const listener = SwipeListener(pizzaSlider.value);
+let touchStart : number, touchEnd : number
 
 onMounted(() => {
-    console.log(pizzaSlider.value)
-    // pizzaSlider.value?.addEventListener('swipe', e => {
-    //     // const direction = e
-    //     console.log(e)
-    //     console.log('swiped')
-    // })
+    pizzaSlider.value?.addEventListener('touchstart', e => {
+        touchStart = e.changedTouches[0].screenX;
+    })
+
+    pizzaSlider.value?.addEventListener('touchend', e => {
+        touchEnd = e.changedTouches[0].screenX;
+        swiped()
+    })
 })
 
 const swiped = () => {
-    console.log('swiped')
+    if (touchEnd < touchStart) {
+        if (currentDisplay.display === data.length-1) return
+        
+        currentDisplay.changeDisplay(1)
+        slidePizza('left')
+    }
+    
+    if (touchEnd > touchStart) {
+        if (currentDisplay.display === 0) return
+        
+        currentDisplay.changeDisplay(-1)
+        slidePizza('right')
+    }
 }
 
-// onMounted(() => {
-//     gsap.to(pizzaSlider.value, {
-//         x: `-${100*display}vw`,
-//         ease: "power4.out",
-//         duration: .8,
-//     })
-// })
+const slidePizza = (direction: 'left' | 'right') => {
+    gsap.to(pizzaSlider.value, {
+        scale: .9,
+        ease: "power4.out",
+        duration: .8,
+    })
+    gsap.to(pizzaSlider.value, {
+        scale: 1,
+        ease: "power4.out",
+        duration: .8,
+        delay: .3
+    })
+
+    gsap.to(pizzaSlider.value, {
+        x: `-${100*currentDisplay.display}vw`,
+        ease: "power4.out",
+        duration: .8,
+    })
+
+    if(direction === 'right'){
+        gsap.to(plate.value, {
+            rotate: '-=20deg',
+            ease: "power4.out",
+            duration: .8,
+        })
+        gsap.to(leafage.value, {
+            rotate: '-=45deg',
+            ease: "power4.out",
+            duration: .8,
+            delay: .1
+        })
+    }
+    else if(direction === 'left'){
+        gsap.to(plate.value, {
+            rotate: '+=20deg',
+            ease: "power4.out",
+            duration: .8,
+        })
+        gsap.to(leafage.value, {
+            rotate: '+=45deg',
+            ease: "power4.out",
+            duration: .8,
+            delay: .1
+        })
+    }
+}
 </script>
 
 <template>
     <main class="relative h-[70vh] pt-12">
         <div class="relative h-[50%] flex justify-center items-center">
             
-            <div class="absolute left-0 w-screen h-full">
+            <div class="absolute left-0 w-screen h-full" ref="leafage">
                 <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 top-20">
                 <img src="../assets/leaf.webp" class="drop-shadow-2xl w-7 absolute right-20 top-6 rotate-45">
                 <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 bottom-10 rotate-90">
@@ -139,25 +193,25 @@ const swiped = () => {
 
         <div class="flex justify-center items-center pt-12">
             <h2 class="text-[10vw] font-fancy font-bold text-4xl">
-                {{data[display].price + addedSizePrice}}
+                {{data[currentDisplay.display].price + addedSizePrice}}
             </h2>
         </div>
 
-        <div class="flex justify-center items-center pt-3 font-fancy">
-            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 m-3 transition"
-                    :class="pizzaSize === 'S' ? 'bg-orange-600 text-white font-bold' : 'bg-white border border-black border-opacity-20'"
+        <div class="flex justify-between items-center w-1/2 pt-3 font-fancy relative left-1/2 -translate-x-1/2">
+            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 mr-3 transition bg-transparent border border-black border-opacity-20 z-10'"
                     @click="setSize('S', 0)">
                 S
             </button>
-            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 m-3 transition"
-                    :class="pizzaSize === 'M' ? 'bg-orange-600 text-white font-bold' : 'bg-white border border-black border-opacity-20'"
+            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 m-3 transition bg-transparent border border-black border-opacity-20 z-10'"
                     @click="setSize('M', 1)">
                 M
             </button>
-            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 m-3 transition"
-                    :class="pizzaSize === 'L' ? 'bg-orange-600 text-white font-bold' : 'bg-white border border-black border-opacity-20'"
+            <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 ml-3 transition bg-transparent border border-black border-opacity-20 z-10'"
                     @click="setSize('L', 1.5)">
                 L
+            </button>
+            <button class="rounded-full absolute left-0 h-10 w-10 p-3 transition duration-500 ease-in-out bg-orange-600 z-0">
+                &nbsp;
             </button>
         </div>
 
