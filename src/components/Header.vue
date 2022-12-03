@@ -15,7 +15,7 @@ const currentDisplay = useDisplayStore()
                 {{title}}
             </h2>
         </div>
-        <img src="../assets/heart.png" 
+        <img src="../assets/love.svg" 
              class="absolute h-[8vw] right-6">
     </header>
 </template>
