@@ -128,6 +128,17 @@ onMounted(() => {
         touchEnd = e.changedTouches[0].screenX;
         swiped()
     })
+
+    // pizzaSlider.value?.addEventListener('drag', e => {
+    //     touchStart = e.changedTouches[0].screenX;
+    //     console.log('awal grag',e)
+    // })
+    
+    // pizzaSlider.value?.addEventListener('dragend', e => {
+    //     touchEnd = e.changedTouches[0].screenX;
+    //     swiped()
+    //     console.log('akhir grag',e)
+    // })
 })
 
 const swiped = () => {
