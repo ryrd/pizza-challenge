@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import {useDisplayStore} from '../store/displayStore'
 
 const {titles} = defineProps<{titles: Array<string>}>();
@@ -12,7 +11,7 @@ const currentDisplay = useDisplayStore()
         <div class="relative w-screen">
             <h2 v-for="(title, i) in titles" :key="title"
                 class="absolute text-[9vw] font-bold left-1/2 -translate-x-1/2 font-fancy transition duration-500"
-                :class="i == currentDisplay.display ? 'opacity-1' : 'opacity-0'">
+                :class="i == currentDisplay.display ? 'opacity-1' : 'opacity-0'" v>
                 {{title}}
             </h2>
         </div>
