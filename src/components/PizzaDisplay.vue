@@ -129,16 +129,16 @@ onMounted(() => {
         swiped()
     })
 
-    // pizzaSlider.value?.addEventListener('drag', e => {
-    //     touchStart = e.changedTouches[0].screenX;
-    //     console.log('awal grag',e)
-    // })
+    pizzaSlider.value?.addEventListener('drag', e => {
+        touchStart = e.clientX;
+        // console.log('awal grag',e)
+    })
     
-    // pizzaSlider.value?.addEventListener('dragend', e => {
-    //     touchEnd = e.changedTouches[0].screenX;
-    //     swiped()
-    //     console.log('akhir grag',e)
-    // })
+    pizzaSlider.value?.addEventListener('dragend', e => {
+        touchEnd = e.clientX;
+        swiped()
+        // console.log('akhir grag',e)
+    })
 })
 
 const swiped = () => {
@@ -272,7 +272,19 @@ const slidePizza = (direction: 'left' | 'right') => {
         </button>
         <button class="rounded-full absolute h-10 w-10 p-3 bg-yellow-500 z-0 transition-all duration-300 ease-in-out" ref="orangeBtn">
             &nbsp;
+
+
         </button>
     </div>
 </main>
 </template>
+
+<style scoped>
+.pizza-slides{
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+</style>

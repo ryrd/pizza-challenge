@@ -2,6 +2,11 @@
 import {ref, onMounted} from 'vue';
 import {useToppingDisplayStore} from '../store/displayStore'
 import gsap from 'gsap';
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper";
+import { isArray } from '@vue/shared';
 
 interface toppingProps {
     topping: Array<{
@@ -37,8 +42,7 @@ const swiped = () => {
         useToppingDisplay.changeToppingDisplay(1)
         slideTopping('left')
     }
-    
-    if (touchEnd > touchStart) {
+    else if (touchEnd > touchStart) {
         if (useToppingDisplay.toppingDisplay === 0) return
         
         useToppingDisplay.changeToppingDisplay(-1)
@@ -49,15 +53,30 @@ const slideTopping = (direction: 'left' | 'right') => {
     console.log(direction)
 }
 
+const slideStart = () => {
+    console.log('awal');
+    // touchStart = e;
+}
+
+const slideEnd = () => {
+    console.log('akhir');
+    // touchStart = e.changedTouches[0].screenX;
+}
+
+const onSlideChange = () => {
+    console.log(Swiper);
+    swiped()
+}
+
 </script>
 
 <template>
 <div class="pt-4">
-    <div class="text-center font-fancy text-lg pt-8">
+    <div class="text-center font-fancy text-lg pt-8 pb-3">
         0/3
     </div>
 
-    <div class="flex pt-1" ref="toppingSlider">
+    <!-- <div class="flex pt-1" ref="toppingSlider">
         <img v-for="(top,i) in topping" 
              :key="top.name"
              :src="`src/assets/${top.img}`" 
@@ -68,7 +87,24 @@ const slideTopping = (direction: 'left' | 'right') => {
                                 'h-16' :
                                 'h-12'"
              >
-    </div>
+    </div> -->
+
+    <swiper
+        :slidesPerView="5"
+        :spaceBetween="30"
+        :centeredSlides="true"
+        :pagination="{clickable: true}"
+        class="mySwiper"
+        @touchStart="slideStart()"
+        @touchEnd="slideEnd()"
+        @slideChange="onSlideChange"
+    >
+        <swiper-slide v-for="(top,i) in topping"
+                      :key="top.name"
+                      v-slot="{ isActive }">
+            <img :src="`src/assets/${top.img}`">
+        </swiper-slide>
+    </swiper>
 </div>
 </template>
 
