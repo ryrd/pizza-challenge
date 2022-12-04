@@ -53,18 +53,12 @@ const slideTopping = (direction: 'left' | 'right') => {
     console.log(direction)
 }
 
-const slideStart = () => {
-    console.log('awal');
-    // touchStart = e;
+const slideStart = (e: Swiper|MouseEvent|TouchEvent) => {
+    touchStart = e.touches.startX;
 }
 
-const slideEnd = () => {
-    console.log('akhir');
-    // touchStart = e.changedTouches[0].screenX;
-}
-
-const onSlideChange = () => {
-    console.log(Swiper);
+const slideEnd = (e: Swiper|MouseEvent|TouchEvent) => {
+    touchEnd = e.touches.currentX;
     swiped()
 }
 
@@ -95,9 +89,8 @@ const onSlideChange = () => {
         :centeredSlides="true"
         :pagination="{clickable: true}"
         class="mySwiper"
-        @touchStart="slideStart()"
-        @touchEnd="slideEnd()"
-        @slideChange="onSlideChange"
+        @touchStart="e => slideStart(e)"
+        @touchEnd="e => slideEnd(e)"
     >
         <swiper-slide v-for="(top,i) in topping"
                       :key="top.name"
