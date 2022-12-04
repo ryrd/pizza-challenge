@@ -95,7 +95,14 @@ const slideEnd = (e: Swiper|MouseEvent|TouchEvent) => {
         <swiper-slide v-for="(top,i) in topping"
                       :key="top.name"
                       v-slot="{ isActive }">
-            <img :src="`src/assets/${top.img}`">
+            <img :src="`src/assets/${top.img}`"
+                 :class="isActive ? 
+                               'h-24 w-24' : 
+                               i === useToppingDisplay.toppingDisplay-1 || i === useToppingDisplay.toppingDisplay+1 ? 
+                                     'h-16 w-16' :
+                                     'h-12 w-12'"
+            >
+            {{isActive}}
         </swiper-slide>
     </swiper>
 </div>
