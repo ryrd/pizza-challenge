@@ -194,13 +194,12 @@ const slidePizza = (direction: 'left' | 'right') => {
         gsap.to(plate.value, {
             rotate: '+=20deg',
             ease: "power4.out",
-            duration: .8,
+            duration: 1,
         })
         gsap.to(leafage.value, {
             rotate: '+=45deg',
             ease: "power4.out",
-            duration: .8,
-            delay: .1
+            duration: 1,
         })
     }
 

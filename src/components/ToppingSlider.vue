@@ -2,11 +2,6 @@
 import {ref, onMounted} from 'vue';
 import {useToppingDisplayStore} from '../store/displayStore'
 import gsap from 'gsap';
-import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Pagination } from "swiper";
-import { isArray } from '@vue/shared';
 
 interface toppingProps {
     topping: Array<{
@@ -20,15 +15,21 @@ const {topping} = defineProps<toppingProps>()
 
 const useToppingDisplay = useToppingDisplayStore()
 
+const toppingContainer = ref<HTMLDivElement|null>(null)
 const toppingSlider = ref<HTMLDivElement|null>(null)
+const toppingSlideAmount = 100/topping.length
+
 let currentToppingSize : 1 | 1.25 | 1.5 = 1
 
 onMounted(() => {
-    toppingSlider.value?.addEventListener('touchstart', e => {
+    gsap.set(toppingSlider.value, {
+        x : `-=${useToppingDisplay.toppingDisplay+1}vw`
+    })
+    toppingContainer.value?.addEventListener('touchstart', e => {
         touchStart = e.changedTouches[0].screenX;
     })
 
-    toppingSlider.value?.addEventListener('touchend', e => {
+    toppingContainer.value?.addEventListener('touchend', e => {
         touchEnd = e.changedTouches[0].screenX;
         swiped()
     })
@@ -49,19 +50,23 @@ const swiped = () => {
         slideTopping('right')
     }
 }
+
 const slideTopping = (direction: 'left' | 'right') => {
-    console.log(direction)
+    if (direction === 'left'){
+        gsap.to(toppingSlider.value, {
+            x : `-=${toppingSlideAmount}%`,
+            ease: "power4.out",
+            duration: .5,
+        })
+    }
+    else if (direction === 'right'){
+        gsap.to(toppingSlider.value, {
+            x : `+=${toppingSlideAmount}%`,
+            ease: "power4.out",
+            duration: .5,
+        })
+    }
 }
-
-const slideStart = (e: Swiper|MouseEvent|TouchEvent) => {
-    touchStart = e.touches.startX;
-}
-
-const slideEnd = (e: Swiper|MouseEvent|TouchEvent) => {
-    touchEnd = e.touches.currentX;
-    swiped()
-}
-
 </script>
 
 <template>
@@ -69,43 +74,27 @@ const slideEnd = (e: Swiper|MouseEvent|TouchEvent) => {
     <div class="text-center font-fancy text-lg pt-8 pb-3">
         0/3
     </div>
-
-    <!-- <div class="flex pt-1" ref="toppingSlider">
-        <img v-for="(top,i) in topping" 
-             :key="top.name"
-             :src="`src/assets/${top.img}`" 
-             class="mr-[5vw] h-12 drop-shadow-lg transition duration-500 ease-in-out"
-             :class="i === useToppingDisplay.toppingDisplay ? 
-                            'h-24' : 
-                            i === useToppingDisplay.toppingDisplay-1 || i === useToppingDisplay.toppingDisplay+1 ? 
-                                'h-16' :
-                                'h-12'"
-             >
-    </div> -->
-
-    <swiper
-        :slidesPerView="5"
-        :spaceBetween="30"
-        :centeredSlides="true"
-        :pagination="{clickable: true}"
-        class="mySwiper"
-        @touchStart="e => slideStart(e)"
-        @touchEnd="e => slideEnd(e)"
-    >
-        <swiper-slide v-for="(top,i) in topping"
-                      :key="top.name"
-                      v-slot="{ isActive }">
-            <img :src="`src/assets/${top.img}`"
-                 :class="isActive ? 
-                               'h-24 w-24' : 
-                               i === useToppingDisplay.toppingDisplay-1 || i === useToppingDisplay.toppingDisplay+1 ? 
-                                     'h-16 w-16' :
-                                     'h-12 w-12'"
-            >
-            {{isActive}}
-        </swiper-slide>
-    </swiper>
+    
+    <div class="pt-1 pl-[10vw]" ref="toppingContainer">
+        <div class="flex w-[150%] border-test"
+             ref="toppingSlider">
+            <div v-for="(top,i) in topping" 
+                 :key="top.name"
+                 class="px-[5vw]">
+                <img :src="`src/assets/${top.img}`" 
+                     class="drop-shadow-lg origin-top"
+                >
+            </div>
+        </div>
+    </div>
+            <!-- :class="i === useToppingDisplay.toppingDisplay ? 
+                           'h-24' : 
+                           i === useToppingDisplay.toppingDisplay-1 || i === useToppingDisplay.toppingDisplay+1 ? 
+                               'h-16' :
+                               'h-12'" -->
 </div>
 </template>
 
-<!--  -->
+<!-- translate-x-[50vw] 
+    translate-x-[50vw]
+-->
