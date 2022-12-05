@@ -22,9 +22,12 @@ const toppingSlideAmount = 100/topping.length
 let currentToppingSize : 1 | 1.25 | 1.5 = 1
 
 onMounted(() => {
-    gsap.set(toppingSlider.value, {
-        x : `-=${useToppingDisplay.toppingDisplay+1}vw`
-    })
+    // gsap.set(toppingSlider.value, {
+    //     x : `+=${useToppingDisplay.toppingDisplay+1*35}vw`
+    // })
+
+    toppingSlider.value ? toppingSlider.value.style.transform = `translateX(${useToppingDisplay.toppingDisplay+1*50})vw` : ''
+
     toppingContainer.value?.addEventListener('touchstart', e => {
         touchStart = e.changedTouches[0].screenX;
     })
@@ -75,12 +78,12 @@ const slideTopping = (direction: 'left' | 'right') => {
         0/3
     </div>
     
-    <div class="pt-1 pl-[10vw]" ref="toppingContainer">
-        <div class="flex w-[150%] border-test"
+    <div class="pt-1 border-test2" ref="toppingContainer">
+        <div class="flex translate-x-[50vw] w-[150%] border-test"
              ref="toppingSlider">
             <div v-for="(top,i) in topping" 
                  :key="top.name"
-                 class="px-[5vw]">
+                 class="px-[5vw] -translate-x-[50%]">
                 <img :src="`src/assets/${top.img}`" 
                      class="drop-shadow-lg origin-top"
                 >

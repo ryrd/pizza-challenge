@@ -13,7 +13,7 @@ export const useDisplayStore = defineStore('display', {
 
 export const useToppingDisplayStore = defineStore('toppingDisplay', {
     state: () => ({
-        toppingDisplay : 1
+        toppingDisplay : 0
     }),
     actions: {
         changeToppingDisplay(index : number){
