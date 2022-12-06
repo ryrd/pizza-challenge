@@ -67,6 +67,10 @@ const slideTopping = (direction: 'left' | 'right') => {
         })
     }
 }
+
+const toppingClick = (top: {name: string, price: number, img: string}) => {
+    console.log(top);
+}
 </script>
 
 <template>
@@ -81,6 +85,7 @@ const slideTopping = (direction: 'left' | 'right') => {
                  ref="toppingSlider">
                 <div v-for="(top,i) in topping" 
                      :key="top.name"
+                     @click="i === useToppingDisplay.toppingDisplay && toppingClick(top)"
                      class="px-[5vw] -translate-x-[50%]">
                     <img :src="`src/assets/${top.img}`" 
                          class="drop-shadow-lg origin-top"
