@@ -204,9 +204,6 @@ const slidePizza = (direction: 'left' | 'right') => {
 
     counterAnim(newPrice.value, data[currentDisplay.display].price + addedSizePrice.value)
 }
-
-
-
 </script>
 
 <template>
@@ -234,7 +231,7 @@ const slidePizza = (direction: 'left' | 'right') => {
              ref="pizzaSlider">
 
             <div v-for="pizza in data" :key="pizza.name"
-                 class="w-screen flex justify-center">
+                 class="w-screen flex justify-center -translate-y-1">
                 <img class="w-[55%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef">
             </div>
 

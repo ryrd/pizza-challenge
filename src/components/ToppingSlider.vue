@@ -137,7 +137,7 @@ const toppingClick = (menu: string, i : number) => {
     
     <div class="pt-1 relative" ref="toppingContainer">
         <img src="../assets/curve.svg" class="absolute left-0 -bottom-[65%] w-full-translate-y-1/2"/>
-        <div class="translate-x-[50vw]">
+        <div class="translate-x-[50vw] -translate-y-3">
             <div class="flex h-[10vh]"
                  :class="`w-[${topping.length*25}vw]`"
                  ref="toppingSlider">
