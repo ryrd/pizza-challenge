@@ -69,20 +69,20 @@ const slideTopping = (direction: 'left' | 'right') => {
     }
 }
 
+const totalSelectedToppingRef = ref<number>(0)
 const toppingMenu = ref<HTMLButtonElement[]|null>(null)
 const toppingClick = (menu: string, i : number) => {
-    const totalSelectedTopping = topping.filter(top => top.selected === true).length
-    
-    if ( totalSelectedTopping === 3 && !topping[i].selected) return
+    if ( totalSelectedToppingRef.value === 3 && !topping[i].selected) return
     
     gsap.to(toppingMenu.value[i], {
-        opacity: !topping[i].selected ? .5 : 1,
+        opacity: topping[i].selected ? 1 : .5,
         ease: "power4.out",
         duration: .4,
     })
     
     topping[i].selected = !topping[i].selected
     
+    totalSelectedToppingRef.value = topping.filter(top => top.selected === true).length
 }
 
 </script>
@@ -90,7 +90,7 @@ const toppingClick = (menu: string, i : number) => {
 <template>
 <div class="pt-4">
     <div class="text-center font-fancy text-lg pt-8 pb-3">
-        0/3
+        {{totalSelectedToppingRef}}/3
     </div>
     
     <div class="pt-1" ref="toppingContainer">
