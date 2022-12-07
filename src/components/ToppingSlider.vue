@@ -7,7 +7,8 @@ interface toppingProps {
     topping: Array<{
         name : string,
         price : number,
-        img: string
+        img: string,
+        selected : boolean
     }>
 }
 
@@ -24,11 +25,11 @@ onMounted(() => {
     gsap.set(toppingSlider.value, {
         x : `-${useToppingDisplay.toppingDisplay*toppingSlideAmount}%`
     })
-
+    
     toppingContainer.value?.addEventListener('touchstart', e => {
         touchStart = e.changedTouches[0].screenX;
     })
-
+    
     toppingContainer.value?.addEventListener('touchend', e => {
         touchEnd = e.changedTouches[0].screenX;
         swiped()
@@ -56,21 +57,34 @@ const slideTopping = (direction: 'left' | 'right') => {
         gsap.to(toppingSlider.value, {
             x : `-=${toppingSlideAmount}%`,
             ease: "power4.out",
-            duration: .5,
+            duration: .9,
         })
     }
     else if (direction === 'right'){
         gsap.to(toppingSlider.value, {
             x : `+=${toppingSlideAmount}%`,
             ease: "power4.out",
-            duration: .5,
+            duration: .9,
         })
     }
 }
 
-const toppingClick = (top: {name: string, price: number, img: string}) => {
-    console.log(top);
+const toppingMenu = ref<HTMLButtonElement[]|null>(null)
+const toppingClick = (menu: string, i : number) => {
+    const totalSelectedTopping = topping.filter(top => top.selected === true).length
+    
+    if ( totalSelectedTopping === 3 && !topping[i].selected) return
+    
+    gsap.to(toppingMenu.value[i], {
+        opacity: !topping[i].selected ? .5 : 1,
+        ease: "power4.out",
+        duration: .4,
+    })
+    
+    topping[i].selected = !topping[i].selected
+    
 }
+
 </script>
 
 <template>
@@ -83,14 +97,15 @@ const toppingClick = (top: {name: string, price: number, img: string}) => {
         <div class="translate-x-[50vw]">
             <div class="flex w-[150%]"
                  ref="toppingSlider">
-                <div v-for="(top,i) in topping" 
+                <button v-for="(top,i) in topping" 
                      :key="top.name"
-                     @click="i === useToppingDisplay.toppingDisplay && toppingClick(top)"
-                     class="px-[5vw] -translate-x-[50%]">
+                     class="px-[5vw] -translate-x-[50%]"
+                     @click="i === useToppingDisplay.toppingDisplay && toppingClick(top.name,i)"
+                     ref="toppingMenu">
                     <img :src="`src/assets/${top.img}`" 
                          class="drop-shadow-lg origin-top"
                     >
-                </div>
+                </button>
             </div>
         </div>
     </div>
