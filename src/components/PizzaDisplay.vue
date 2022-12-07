@@ -131,13 +131,11 @@ onMounted(() => {
 
     pizzaSlider.value?.addEventListener('drag', e => {
         touchStart = e.clientX;
-        // console.log('awal grag',e)
     })
     
     pizzaSlider.value?.addEventListener('dragend', e => {
         touchEnd = e.clientX;
         swiped()
-        // console.log('akhir grag',e)
     })
 })
 
@@ -186,7 +184,7 @@ const slidePizza = (direction: 'left' | 'right') => {
         gsap.to(leafage.value, {
             rotate: '-=45deg',
             ease: "power4.out",
-            duration: .8,
+            duration: 1.2,
             delay: .1
         })
     }
@@ -194,12 +192,13 @@ const slidePizza = (direction: 'left' | 'right') => {
         gsap.to(plate.value, {
             rotate: '+=20deg',
             ease: "power4.out",
-            duration: 1,
+            duration: .8,
         })
         gsap.to(leafage.value, {
             rotate: '+=45deg',
             ease: "power4.out",
-            duration: 1,
+            duration: 1.2,
+            delay: .1
         })
     }
 
@@ -214,7 +213,7 @@ const slidePizza = (direction: 'left' | 'right') => {
 <main class="relative h-[55vh] pt-20">
     <div class="relative h-[50%] flex justify-center items-center">
         
-        <div class="absolute left-0 w-screen h-full" ref="leafage">
+        <div class="absolute left-1/2 -translate-x-1/2 w-[90%] h-[180%]" ref="leafage">
             <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 top-20">
             <img src="../assets/leaf.webp" class="drop-shadow-2xl w-7 absolute right-20 top-6 rotate-45">
             <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 bottom-10 rotate-90">
@@ -271,8 +270,6 @@ const slidePizza = (direction: 'left' | 'right') => {
         </button>
         <button class="rounded-full absolute h-10 w-10 p-3 bg-yellow-500 z-0 transition-all duration-300 ease-in-out" ref="orangeBtn">
             &nbsp;
-
-
         </button>
     </div>
 </main>
