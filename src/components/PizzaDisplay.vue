@@ -228,27 +228,27 @@ const slidePizza = (direction: 'left' | 'right') => {
              ref="plate">
         
         <div class="w-full h-[150%] z-10 relative">
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-mushroom">
                 <img src="../assets/mushroom-topping.webp" class="absolute left-1/2 -translate-x-1/2">
                 <img src="../assets/mushroom-topping.webp" class="rotate-180">
             </div>
 
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-tomato">
                 <img src="../assets/tomato-topping.webp" class="absolute left-1/2 -translate-x-1/2">
                 <img src="../assets/tomato-topping.webp" class="rotate-180">
             </div>
 
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-sausage">
                 <img src="../assets/sausage-topping.webp" class="absolute left-1/2 -translate-x-1/2">
                 <img src="../assets/sausage-topping.webp" class="rotate-180">
             </div>
 
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-leaf">
                 <img src="../assets/leaf-topping.webp" class="absolute left-1/2 -translate-x-1/2">
                 <img src="../assets/leaf-topping.webp" class="rotate-180">
             </div>
 
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-onion">
                 <img src="../assets/onion-topping.webp" class="absolute left-1/2 -translate-x-1/2">
                 <img src="../assets/onion-topping.webp" class="rotate-180">
             </div>
