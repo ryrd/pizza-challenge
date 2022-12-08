@@ -15,6 +15,7 @@ const {data} = defineProps<props>()
 const currentDisplay = useDisplayStore()
 
 const pizzaSlider = ref<HTMLDivElement|null>(null)
+const pizzaSlideDetector = ref<HTMLDivElement|null>(null)
 const plate = ref<HTMLImageElement|null>(null)
 const leafage = ref<HTMLDivElement|null>(null)
 const pizzaRef = ref<HTMLImageElement|null>(null)
@@ -120,20 +121,20 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
 
 let touchStart : number, touchEnd : number
 onMounted(() => {
-    pizzaSlider.value?.addEventListener('touchstart', e => {
+    pizzaSlideDetector.value?.addEventListener('touchstart', e => {
         touchStart = e.changedTouches[0].screenX;
     })
 
-    pizzaSlider.value?.addEventListener('touchend', e => {
+    pizzaSlideDetector.value?.addEventListener('touchend', e => {
         touchEnd = e.changedTouches[0].screenX;
         swiped()
     })
 
-    pizzaSlider.value?.addEventListener('drag', e => {
+    pizzaSlideDetector.value?.addEventListener('drag', e => {
         touchStart = e.clientX;
     })
     
-    pizzaSlider.value?.addEventListener('dragend', e => {
+    pizzaSlideDetector.value?.addEventListener('dragend', e => {
         touchEnd = e.clientX;
         swiped()
     })
@@ -226,21 +227,51 @@ const slidePizza = (direction: 'left' | 'right') => {
              class="w-[60%] absolute t-1/2 drop-shadow-lg"
              ref="plate">
         
+        <div class="w-full h-[150%] z-10 relative">
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+                <img src="../assets/mushroom-topping.webp" class="absolute left-1/2 -translate-x-1/2">
+                <img src="../assets/mushroom-topping.webp" class="rotate-180">
+            </div>
+
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+                <img src="../assets/tomato-topping.webp" class="absolute left-1/2 -translate-x-1/2">
+                <img src="../assets/tomato-topping.webp" class="rotate-180">
+            </div>
+
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+                <img src="../assets/sausage-topping.webp" class="absolute left-1/2 -translate-x-1/2">
+                <img src="../assets/sausage-topping.webp" class="rotate-180">
+            </div>
+
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+                <img src="../assets/leaf-topping.webp" class="absolute left-1/2 -translate-x-1/2">
+                <img src="../assets/leaf-topping.webp" class="rotate-180">
+            </div>
+
+            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0">
+                <img src="../assets/onion-topping.webp" class="absolute left-1/2 -translate-x-1/2">
+                <img src="../assets/onion-topping.webp" class="rotate-180">
+            </div>
+        </div>
+
+        <div class="w-full h-[200%] absolute left-1/2 -translate-x-1/2 z-20" ref="pizzaSlideDetector"/>
+
         <div class="absolute h-[90%] top-0 left-0 flex items-center t-1/2 mt-[3%]"
              :class="`w-[${100*data.length}%]`"
              ref="pizzaSlider">
+
 
             <div v-for="pizza in data" :key="pizza.name"
                  class="w-screen flex justify-center -translate-y-1">
                 <img class="w-[55%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef">
             </div>
 
-        </div>
+        </div>        
         
-        <button class="absolute left-[18%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 -translate-x-4 border border-black border-opacity-5">
+        <button class="absolute left-[18%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 -translate-x-4 border border-black border-opacity-5 z-30">
             <img src="../assets/minus.svg" class="w-[80%]">
         </button>
-        <button class="absolute right-[18%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 translate-x-4 border border-black border-opacity-5">
+        <button class="absolute right-[18%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 translate-x-4 border border-black border-opacity-5 z-30">
             <img src="../assets/plus.svg" class="w-[80%]">
         </button>
         

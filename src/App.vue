@@ -10,9 +10,9 @@ const titles = data.map(d => d.name)
 
 <template>
 <div class="bg-white h-screen w-screen flex flex-col">
+  <toppingSlider :topping="topping"/>
   <Header :titles="titles"/>
   <pizzaDisplay :data="data"/>
-  <toppingSlider :topping="topping"/>
 </div>
 </template>
 

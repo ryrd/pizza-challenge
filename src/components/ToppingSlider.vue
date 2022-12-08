@@ -143,10 +143,10 @@ const toppingClick = (menu: string, i : number) => {
                  :class="`w-[${topping.length*25}vw]`"
                  ref="toppingSlider">
                 <button v-for="(top,i) in topping" 
-                     :key="top.name"
-                     class="-translate-x-[50%] flex justify-center items-center"
-                     @click="i === useToppingDisplay.toppingDisplay && toppingClick(top.name,i)"
-                     ref="toppingMenu">
+                        :key="top.name"
+                        class="-translate-x-[50%] flex justify-center items-center"
+                        @click="i === useToppingDisplay.toppingDisplay && toppingClick(top.name,i)"
+                        ref="toppingMenu">
                     <img :src="`src/assets/${top.img}`" 
                          class="drop-shadow-lg origin-top w-[45%]"
                     >
