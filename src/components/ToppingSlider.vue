@@ -23,22 +23,20 @@ const toppingSlideAmount = 100/topping.length
 let outsideMain3Topping: HTMLButtonElement[]
 
 onMounted(() => {
-    outsideMain3Topping = toppingMenu.value?.filter((tp, i) => i !== useToppingDisplay.toppingDisplay-1 && i !== useToppingDisplay.toppingDisplay && i !== useToppingDisplay.toppingDisplay+1)
-
     gsap.set(toppingSlider.value, {
         x : `-${useToppingDisplay.toppingDisplay*toppingSlideAmount}%`
     })
 
     toppingMenu.value[useToppingDisplay.toppingDisplay-1] && gsap.set(toppingMenu.value[useToppingDisplay.toppingDisplay-1].children, {
-        scale:  .75,
+        scale:  1.4,
         y: '10%',
     })
     toppingMenu.value[useToppingDisplay.toppingDisplay+1] && gsap.set(toppingMenu.value[useToppingDisplay.toppingDisplay+1].children, {
-        scale: .75,
+        scale: 1.4,
         y: '10%',
     })
     gsap.set(toppingMenu.value[useToppingDisplay.toppingDisplay].children, {
-        scale: 1,
+        scale: 2,
         y: '25%',
     })
 
@@ -83,29 +81,32 @@ const slideTopping = (direction: 'left' | 'right') => {
             duration: .9,
         })
     }
-    outsideMain3Topping = toppingMenu.value.filter((tp, i) => i !== useToppingDisplay.toppingDisplay-1 && i !== useToppingDisplay.toppingDisplay && i !== useToppingDisplay.toppingDisplay+1)
 
-    gsap.to(outsideMain3Topping, {
-        scale:  .5,
-        y: '0%',
-        ease: "power4.out",
-        duration: .8,
-    })
+    const outsideMain3Topping: number[] = toppingMenu.value.map((tp, indx) => indx).filter(i => i !== useToppingDisplay.toppingDisplay-1 && i !== useToppingDisplay.toppingDisplay && i !== useToppingDisplay.toppingDisplay+1)
+   
+    outsideMain3Topping.forEach((i: number) => {
+        gsap.to(toppingMenu.value[i].children, {
+            scale:  1,
+            y: '0%',
+            ease: "power4.out",
+            duration: .8,
+        })
+    });
 
     toppingMenu.value[useToppingDisplay.toppingDisplay-1] && gsap.to(toppingMenu.value[useToppingDisplay.toppingDisplay-1].children, {
-        scale:  .75,
+        scale:  1.4,
         y: '10%',
         ease: "power4.out",
         duration: .8,
     })
     toppingMenu.value[useToppingDisplay.toppingDisplay+1] && gsap.to(toppingMenu.value[useToppingDisplay.toppingDisplay+1].children, {
-        scale: .75,
+        scale: 1.4,
         y: '10%',
         ease: "power4.out",
         duration: .8,
     })
     gsap.to(toppingMenu.value[useToppingDisplay.toppingDisplay].children, {
-        scale: 1,
+        scale: 2,
         y: '25%',
         ease: "power4.out",
         duration: .8,
@@ -116,7 +117,7 @@ const totalSelectedToppingRef = ref<number>(0)
 const toppingClick = (menu: string, i : number) => {
     if ( totalSelectedToppingRef.value === 3 && !topping[i].selected) return
     
-    gsap.to(toppingMenu.value[i], {
+    gsap.to(toppingMenu.value[i].children, {
         opacity: topping[i].selected ? 1 : .5,
         ease: "power4.out",
         duration: .4,
@@ -137,17 +138,17 @@ const toppingClick = (menu: string, i : number) => {
     
     <div class="pt-1 relative" ref="toppingContainer">
         <img src="../assets/curve.svg" class="absolute left-0 -bottom-[65%] w-full-translate-y-1/2"/>
-        <div class="translate-x-[50vw] -translate-y-3">
+        <div class="translate-x-[50vw] -translate-y-5">
             <div class="flex h-[10vh]"
                  :class="`w-[${topping.length*25}vw]`"
                  ref="toppingSlider">
                 <button v-for="(top,i) in topping" 
                      :key="top.name"
-                     class="-translate-x-[50%]"
+                     class="-translate-x-[50%] flex justify-center items-center"
                      @click="i === useToppingDisplay.toppingDisplay && toppingClick(top.name,i)"
                      ref="toppingMenu">
                     <img :src="`src/assets/${top.img}`" 
-                         class="drop-shadow-lg origin-top scale-50"
+                         class="drop-shadow-lg origin-top w-[45%]"
                     >
                 </button>
             </div>
