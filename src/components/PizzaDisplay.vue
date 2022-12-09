@@ -163,9 +163,9 @@ watch(useAddedTopping.addedTopping, (Added) => {
     if (newAddedLength > previousAddedLength){
         const newAdded = useAddedTopping.addedTopping[useAddedTopping.addedTopping.length-1]
         gsap.fromTo(`#topping-${newAdded}`, 
-        {   scale: 2.2   }, 
+        {   scale: currentPizzaSize*2.2   }, 
         {
-            scale: 1,
+            scale: currentPizzaSize*1,
             ease: "power4.out",
             duration: .8,  
         })
@@ -178,7 +178,7 @@ watch(useAddedTopping.addedTopping, (Added) => {
     else if (newAddedLength < previousAddedLength){
         const removed = useAddedTopping.removedTopping
         gsap.to(`#topping-${removed}`, {
-            scale: 2.2,
+            scale: currentPizzaSize*2.2,
             ease: "power4.out",
             duration: .8,
         })
