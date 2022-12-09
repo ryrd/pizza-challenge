@@ -162,11 +162,9 @@ watch(useAddedTopping.addedTopping, (Added) => {
 
     if (newAddedLength > previousAddedLength){
         const newAdded = useAddedTopping.addedTopping[useAddedTopping.addedTopping.length-1]
-        gsap.fromTo(`#topping-${newAdded}`, {
-            scale: 2.2,
-            ease: "power4.out",
-            duration: .8,
-        }, {
+        gsap.fromTo(`#topping-${newAdded}`, 
+        {   scale: 2.2   }, 
+        {
             scale: 1,
             ease: "power4.out",
             duration: .8,  
