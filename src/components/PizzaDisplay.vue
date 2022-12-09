@@ -70,16 +70,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 })
-                .to(pizzaRef.value, {
+                .to([pizzaRef.value, pizzaToppingRef.value], {
                     scale: currentPizzaSize,
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
-                .to(pizzaToppingRef.value, {
-                    scale: currentPizzaSize,
-                    ease: "power4.out",
-                    duration: .8,
-                }, '<')
                 .to(orangeBtn.value, {
                     left: '0%',
                     x: '0%',
@@ -96,16 +91,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 })
-                .to(pizzaRef.value, {
+                .to([pizzaRef.value, pizzaToppingRef.value], {
                     scale: currentPizzaSize,
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
-                .to(pizzaToppingRef.value, {
-                    scale: currentPizzaSize,
-                    ease: "power4.out",
-                    duration: .8,
-                }, '<')
                 .to(orangeBtn.value, {
                     left: '50%',
                     x: '-50%',
@@ -122,16 +112,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 })
-                .to(pizzaRef.value, {
+                .to([pizzaRef.value, pizzaToppingRef.value], {
                     scale: currentPizzaSize,
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
-                .to(pizzaToppingRef.value, {
-                    scale: currentPizzaSize,
-                    ease: "power4.out",
-                    duration: .8,
-                }, '<')
                 .to(orangeBtn.value, {
                     left: '100%',
                     x: '-100%',
@@ -168,9 +153,40 @@ onMounted(() => {
     })
 })
 
+let previousAddedLength: number,
+    newAddedLength = 0
+
 watch(useAddedTopping.addedTopping, (Added) => {
-    console.log(Added)
-    
+    previousAddedLength = newAddedLength
+    newAddedLength = useAddedTopping.addedTopping.length
+
+    if (newAddedLength > previousAddedLength){
+        const newAdded = useAddedTopping.addedTopping[useAddedTopping.addedTopping.length-1]
+        gsap.from(`#topping-${newAdded}`, {
+            scale: 2.2,
+            ease: "power4.out",
+            duration: .8,
+        })
+        gsap.to(`#topping-${newAdded}`, {
+            opacity: 1,
+            ease: "power4.out",
+            duration: 1.2,
+        })
+    }
+    else if (newAddedLength < previousAddedLength){
+        // console.log(useAddedTopping.removedTopping);
+        const removed = useAddedTopping.removedTopping
+        gsap.to(`#topping-${removed}`, {
+            scale: 2.2,
+            ease: "power4.out",
+            duration: .8,
+        })
+        gsap.to(`#topping-${removed}`, {
+            opacity: 0,
+            ease: "power4.out",
+            duration: 1.2,
+        })
+    }
 })
 
 const swiped = () => {
@@ -193,26 +209,16 @@ const sliderTimelineAnim = gsap.timeline()
 
 const slidePizza = (direction: 'left' | 'right') => {
     sliderTimelineAnim
-        .to(pizzaRef.value, {
+        .to([pizzaRef.value, pizzaToppingRef.value], {
             scale: currentPizzaSize*.8,
             ease: "power4.out",
             duration: .5,
         })
-        .to(pizzaToppingRef.value, {
-            scale: currentPizzaSize*.8,
-            ease: "power4.out",
-            duration: .5,
-        }, '<')
-        .to(pizzaRef.value, {
+        .to([pizzaRef.value, pizzaToppingRef.value], {
             scale: currentPizzaSize,
             ease: "power4.out",
             duration: .5,
         }, '-=.4')
-        .to(pizzaToppingRef.value, {
-            scale: currentPizzaSize,
-            ease: "power4.out",
-            duration: .5,
-        }, '<')
         .to(pizzaSlider.value, {
             x: `-${100*currentDisplay.display}vw`,
             ease: "power4.out",

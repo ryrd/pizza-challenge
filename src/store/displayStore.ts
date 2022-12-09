@@ -24,7 +24,8 @@ export const useToppingDisplayStore = defineStore('toppingDisplay', {
 
 export const useAddedToppingStore = defineStore('addedTopping', {
     state: () => ({
-        addedTopping : []
+        addedTopping : [],
+        removedTopping : '' 
     }),
     actions: {
         addTopping(top : string){
@@ -32,6 +33,7 @@ export const useAddedToppingStore = defineStore('addedTopping', {
         },
         removeTopping(top : string){
             this.addedTopping.splice(this.addedTopping.indexOf(top), 1)
+            this.removedTopping = top
         }
     }
 })
