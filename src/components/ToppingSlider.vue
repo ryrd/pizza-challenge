@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue';
-import {useToppingDisplayStore} from '../store/displayStore'
+import {useToppingDisplayStore, useAddedToppingStore} from '../store/displayStore'
 import gsap from 'gsap';
 
 interface toppingProps {
     topping: Array<{
         name : string,
         price : number,
+        imgTop: string,
         img: string,
         selected : boolean
     }>
@@ -15,6 +16,7 @@ interface toppingProps {
 const {topping} = defineProps<toppingProps>()
 
 const useToppingDisplay = useToppingDisplayStore()
+const useAddedTopping = useAddedToppingStore()
 
 const toppingContainer = ref<HTMLDivElement|null>(null)
 const toppingSlider = ref<HTMLDivElement|null>(null)
@@ -125,6 +127,8 @@ const toppingClick = (menu: string, i : number) => {
     
     topping[i].selected = !topping[i].selected
     
+    topping[i].selected ? useAddedTopping.addTopping(menu) : useAddedTopping.removeTopping(menu)
+    
     totalSelectedToppingRef.value = topping.filter(top => top.selected === true).length
 }
 
@@ -147,7 +151,7 @@ const toppingClick = (menu: string, i : number) => {
                         class="-translate-x-[50%] flex justify-center items-center"
                         @click="i === useToppingDisplay.toppingDisplay && toppingClick(top.name,i)"
                         ref="toppingMenu">
-                    <img :src="`src/assets/${top.img}`" 
+                    <img :src="`src/assets/${top.imgTop}`" 
                          class="drop-shadow-lg origin-top w-[45%]"
                     >
                 </button>

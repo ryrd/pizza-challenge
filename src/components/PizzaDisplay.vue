@@ -1,36 +1,48 @@
 <script setup lang="ts">
-import {ref, onMounted} from 'vue';
-import {useDisplayStore} from '../store/displayStore'
+import {ref, onMounted, watch} from 'vue';
+import {useDisplayStore, useAddedToppingStore} from '../store/displayStore'
 import gsap from 'gsap';
 
 interface props {
-    data: Array<{
+    data: {
         name:string, 
         price: number, 
         img: string
-    }>
+    }[],
+    topping: {
+        name: string;
+        price: number;
+        imgTop: string;
+        img: string;
+        selected: boolean;
+    }[]
 }
 
-const {data} = defineProps<props>()
+const {data, topping} = defineProps<props>()
 const currentDisplay = useDisplayStore()
+const useAddedTopping = useAddedToppingStore()
 
 const pizzaSlider = ref<HTMLDivElement|null>(null)
 const pizzaSlideDetector = ref<HTMLDivElement|null>(null)
+
 const plate = ref<HTMLImageElement|null>(null)
 const leafage = ref<HTMLDivElement|null>(null)
+
 const pizzaRef = ref<HTMLImageElement|null>(null)
+const pizzaToppingRef = ref<HTMLDivElement|null>(null)
 
 type sizeType = 'S' | 'M' | 'L'
 let currentPizzaSize : 1 | 1.2 | 1.4 = 1
 const pizzaSize = ref<sizeType>('S')
 const addedSizePrice = ref<number>(0)
+
 const orangeBtn = ref<HTMLButtonElement|null>(null)
 
 const newPrice =  ref<number>(data[currentDisplay.display].price + addedSizePrice.value)
 const oldPrice = ref<number>(data[currentDisplay.display].price + addedSizePrice.value) 
 
 const counterAnim: Function = (start: number, end: number): void => {
-    let startTimestamp: any = null;
+    let startTimestamp: number = null;
     const step = (timestamp: number) => {
         if (!startTimestamp) startTimestamp = timestamp;
 
@@ -63,6 +75,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
+                .to(pizzaToppingRef.value, {
+                    scale: currentPizzaSize,
+                    ease: "power4.out",
+                    duration: .8,
+                }, '<')
                 .to(orangeBtn.value, {
                     left: '0%',
                     x: '0%',
@@ -84,6 +101,11 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
+                .to(pizzaToppingRef.value, {
+                    scale: currentPizzaSize,
+                    ease: "power4.out",
+                    duration: .8,
+                }, '<')
                 .to(orangeBtn.value, {
                     left: '50%',
                     x: '-50%',
@@ -99,11 +121,17 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
                     scale: 1.4,
                     ease: "power4.out",
                     duration: .8,
-                }).to(pizzaRef.value, {
+                })
+                .to(pizzaRef.value, {
                     scale: currentPizzaSize,
                     ease: "power4.out",
                     duration: .8,
                 }, '-=.6')
+                .to(pizzaToppingRef.value, {
+                    scale: currentPizzaSize,
+                    ease: "power4.out",
+                    duration: .8,
+                }, '<')
                 .to(orangeBtn.value, {
                     left: '100%',
                     x: '-100%',
@@ -140,6 +168,11 @@ onMounted(() => {
     })
 })
 
+watch(useAddedTopping.addedTopping, (Added) => {
+    console.log(Added)
+    
+})
+
 const swiped = () => {
     if (touchEnd < touchStart) {
         if (currentDisplay.display === data.length-1) return
@@ -165,11 +198,21 @@ const slidePizza = (direction: 'left' | 'right') => {
             ease: "power4.out",
             duration: .5,
         })
+        .to(pizzaToppingRef.value, {
+            scale: currentPizzaSize*.8,
+            ease: "power4.out",
+            duration: .5,
+        }, '<')
         .to(pizzaRef.value, {
             scale: currentPizzaSize,
             ease: "power4.out",
             duration: .5,
         }, '-=.4')
+        .to(pizzaToppingRef.value, {
+            scale: currentPizzaSize,
+            ease: "power4.out",
+            duration: .5,
+        }, '<')
         .to(pizzaSlider.value, {
             x: `-${100*currentDisplay.display}vw`,
             ease: "power4.out",
@@ -226,33 +269,6 @@ const slidePizza = (direction: 'left' | 'right') => {
         <img src="../assets/plate.webp"
              class="w-[60%] absolute t-1/2 drop-shadow-lg"
              ref="plate">
-        
-        <div class="w-full h-[150%] z-10 relative">
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-mushroom">
-                <img src="../assets/mushroom-topping.webp" class="absolute left-1/2 -translate-x-1/2">
-                <img src="../assets/mushroom-topping.webp" class="rotate-180">
-            </div>
-
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-tomato">
-                <img src="../assets/tomato-topping.webp" class="absolute left-1/2 -translate-x-1/2">
-                <img src="../assets/tomato-topping.webp" class="rotate-180">
-            </div>
-
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-sausage">
-                <img src="../assets/sausage-topping.webp" class="absolute left-1/2 -translate-x-1/2">
-                <img src="../assets/sausage-topping.webp" class="rotate-180">
-            </div>
-
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-leaf">
-                <img src="../assets/leaf-topping.webp" class="absolute left-1/2 -translate-x-1/2">
-                <img src="../assets/leaf-topping.webp" class="rotate-180">
-            </div>
-
-            <div class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" id="topping-onion">
-                <img src="../assets/onion-topping.webp" class="absolute left-1/2 -translate-x-1/2">
-                <img src="../assets/onion-topping.webp" class="rotate-180">
-            </div>
-        </div>
 
         <div class="w-full h-[200%] absolute left-1/2 -translate-x-1/2 z-20" ref="pizzaSlideDetector"/>
 
@@ -260,10 +276,18 @@ const slidePizza = (direction: 'left' | 'right') => {
              :class="`w-[${100*data.length}%]`"
              ref="pizzaSlider">
 
-
             <div v-for="pizza in data" :key="pizza.name"
                  class="w-screen flex justify-center -translate-y-1">
-                <img class="w-[55%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef">
+
+                <img class="w-[55%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef"/>
+
+                <div v-for="top in topping" :key="top.name"
+                    class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" 
+                    :id="`topping-${top.name}`"
+                    ref="pizzaToppingRef">
+                    <img :src="`src/assets/${top.img}`" class="absolute left-1/2 -translate-x-1/2">
+                    <img :src="`src/assets/${top.img}`" class="rotate-180">
+                </div>
             </div>
 
         </div>        

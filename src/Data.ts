@@ -20,31 +20,36 @@ const topping = [
     {
         name : 'mushroom',
         price : 1.5,
-        img : 'mushroom-top.webp',
+        imgTop : 'mushroom-top.webp',
+        img : 'mushroom-topping.webp',
         selected : false
     },
     {
         name : 'tomato',
         price : 1.0,
-        img : 'tomato-top.webp',
+        imgTop : 'tomato-top.webp',
+        img : 'tomato-topping.webp',
         selected : false
     },
     {
         name : 'sausage',
         price : 2.0,
-        img : 'sausage-top.webp',
+        imgTop : 'sausage-top.webp',
+        img : 'sausage-topping.webp',
         selected : false
     },
     {
         name : 'leaf',
         price : 0.5,
-        img : 'leaf-top.webp',
+        imgTop : 'leaf-top.webp',
+        img : 'leaf-topping.webp',
         selected : false
     },
     {
         name : 'onion',
         price : 1.0,
-        img : 'onion-top.webp',
+        imgTop : 'onion-top.webp',
+        img : 'onion-topping.webp',
         selected : false
     },
 ]
