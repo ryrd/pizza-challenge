@@ -174,7 +174,6 @@ watch(useAddedTopping.addedTopping, (Added) => {
         })
     }
     else if (newAddedLength < previousAddedLength){
-        // console.log(useAddedTopping.removedTopping);
         const removed = useAddedTopping.removedTopping
         gsap.to(`#topping-${removed}`, {
             scale: 2.2,
