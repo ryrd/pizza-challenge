@@ -268,10 +268,10 @@ const slidePizza = (direction: 'left' | 'right') => {
 </script>
 
 <template>
-<main class="relative h-[55vh] pt-20">
-    <div class="relative h-[50%] flex justify-center items-center">
+<main class="relative h-full pt-[5%] landscape:pt-0 overflow-hidden border-test2">
+    <div class="relative h-[50%] landscape:h-[65%] bg-blue-300 flex justify-center items-center">
         
-        <div class="absolute left-1/2 -translate-x-1/2 w-[90%] h-[180%]" ref="leafage">
+        <div class="absolute left-1/2 -translate-x-1/2 w-[90%] landscape:w-[50%] h-[180%] landscape:h-[70%]" ref="leafage">
             <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 top-20">
             <img src="../assets/leaf.webp" class="drop-shadow-2xl w-7 absolute right-20 top-6 rotate-45">
             <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 bottom-10 rotate-90">
@@ -284,24 +284,24 @@ const slidePizza = (direction: 'left' | 'right') => {
         </div>
 
         <img src="../assets/plate.webp"
-             class="w-[60%] absolute t-1/2 drop-shadow-lg"
+             class="w-[60%] landscape:w-[40%] landscape:top-[15%] absolute drop-shadow-lg"
              ref="plate">
 
-        <div class="w-full h-[200%] absolute left-1/2 -translate-x-1/2 z-20" ref="pizzaSlideDetector"/>
+        <div class="w-full h-[200%] landscape:h-[100%] border border-slate-500 absolute left-1/2 -translate-x-1/2 z-20" ref="pizzaSlideDetector"/>
 
-        <div class="absolute h-[90%] top-0 left-0 flex items-center t-1/2 mt-[3%]"
+        <div class="absolute h-[90%] landscape:h-full top-0 left-0 flex items-center t-1/2 mt-[3%]"
              :class="`w-[${100*data.length}%]`"
              ref="pizzaSlider">
 
             <div v-for="pizza in data" :key="pizza.name"
-                 class="w-screen flex justify-center -translate-y-1">
+                 class="w-screen landscape:w-[60vw] flex justify-center -translate-y-[3%] landscape:translate-y-[0%] border-test">
 
-                <img class="w-[55%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef"/>
+                <img class="w-[55%] landscape:w-[35%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef"/>
 
                 <div v-for="top in topping" :key="top.name"
-                    class="h-full absolute left-1/2 top-3 -translate-x-1/2 opacity-0" 
-                    :id="`topping-${top.name}`"
-                    ref="pizzaToppingRef">
+                     class="h-full bg-emerald-400 absolute left-1/2 top-3 landscape:top-0 -translate-x-1/2 opacity-0" 
+                     :id="`topping-${top.name}`"
+                     ref="pizzaToppingRef">
                     <img :src="`src/assets/${top.img}`" class="absolute left-1/2 -translate-x-1/2">
                     <img :src="`src/assets/${top.img}`" class="rotate-180">
                 </div>
@@ -318,13 +318,13 @@ const slidePizza = (direction: 'left' | 'right') => {
         
     </div>
 
-    <div class="flex justify-center items-center pt-20">
-        <h2 class="text-[10vw] font-fancy font-bold text-4xl">
+    <div class="flex justify-center items-center pt-[20%] landscape:pt-[10%]">
+        <h2 class="text-[180%] font-fancy font-bold">
             ${{newPrice}}
         </h2>
     </div>
 
-    <div class="flex justify-between items-center w-1/2 pt-3 font-fancy relative left-1/2 -translate-x-1/2">
+    <div class="flex justify-between items-center w-1/2 max-w-md font-fancy relative left-1/2 -translate-x-1/2">
         <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 mr-3 transition bg-transparent border border-black border-opacity-20 z-10"
                 @click="setSize('S', 0)">
             S

@@ -135,14 +135,14 @@ const toppingClick = (menu: string, i : number) => {
 </script>
 
 <template>
-<div class="absolute bottom-[8vh]">
-    <div class="text-center font-fancy text-lg pt-8 pb-3">
+<div class="h-full flex flex-col justify-center items-center mb-5">
+    <div class="text-center font-fancy text-[120%]">
         {{totalSelectedToppingRef}}/3
     </div>
     
     <div class="pt-1 relative" ref="toppingContainer">
-        <img src="../assets/curve.svg" class="absolute left-0 -bottom-[65%] w-full -translate-y-1/4"/>
-        <div class="translate-x-[50vw] -translate-y-8">
+        <img src="../assets/curve.svg" class="absolute left-0 -bottom-[90%] w-full -translate-y-1/4"/>
+        <div class="translate-x-[50%] -translate-y-[40%]">
             <div class="flex h-[10vh]"
                  :class="`w-[${topping.length*25}vw]`"
                  ref="toppingSlider">
@@ -157,9 +157,9 @@ const toppingClick = (menu: string, i : number) => {
                 </button>
             </div>
         </div>
-         <button class="bg-black bg-opacity-95 hover:bg-opacity-80 absolute left-1/2 rounded -bottom-1/2 -translate-x-1/2 flex justify-center items-center h-10 w-[38vw] py-5">
-            <img src="../assets/cart.svg" class="w-[16%] mr-2">
-            <span class="text-white font-fancy">add to cart</span>
+         <button class="bg-black bg-opacity-95 hover:bg-opacity-80 absolute left-1/2 rounded -bottom-[70%] -translate-x-1/2 flex justify-center items-center h-10 w-[38%] md:h-14 md:w-[22%] py-5">
+            <img src="../assets/cart.svg" class="w-[16%] mr-3">
+            <span class="text-white font-fancy md:text-[120%]">add to cart</span>
          </button>
     </div>
 </div>
