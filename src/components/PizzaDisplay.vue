@@ -19,6 +19,7 @@ interface props {
 }
 
 const {data, topping} = defineProps<props>()
+
 const currentDisplay = useDisplayStore()
 const useAddedTopping = useAddedToppingStore()
 
@@ -31,6 +32,8 @@ const leafage = ref<HTMLDivElement|null>(null)
 const pizzaRef = ref<HTMLImageElement|null>(null)
 const pizzaToppingRef = ref<HTMLDivElement|null>(null)
 
+const totalToppingsPrice = ref<number>(0)
+
 type sizeType = 'S' | 'M' | 'L'
 let currentPizzaSize : 1 | 1.2 | 1.4 = 1
 const pizzaSize = ref<sizeType>('S')
@@ -38,8 +41,8 @@ const addedSizePrice = ref<number>(0)
 
 const orangeBtn = ref<HTMLButtonElement|null>(null)
 
-const newPrice =  ref<number>(data[currentDisplay.display].price + addedSizePrice.value)
-const oldPrice = ref<number>(data[currentDisplay.display].price + addedSizePrice.value) 
+const newPrice =  ref<number>(data[currentDisplay.display].price + addedSizePrice.value + totalToppingsPrice.value)
+const oldPrice = ref<number>(data[currentDisplay.display].price + addedSizePrice.value + totalToppingsPrice.value) 
 
 const counterAnim: Function = (start: number, end: number): void => {
     let startTimestamp: number = null;
@@ -129,7 +132,7 @@ const setSize = (newSize: sizeType , increasePrice: number) => {
             break
     }
 
-    counterAnim(newPrice.value, data[currentDisplay.display].price + addedSizePrice.value)
+    counterAnim(newPrice.value, data[currentDisplay.display].price+addedSizePrice.value+totalToppingsPrice.value)
 }
 
 let touchStart : number, touchEnd : number
@@ -156,7 +159,7 @@ onMounted(() => {
 let previousAddedLength: number,
     newAddedLength = 0
 
-watch(useAddedTopping.addedTopping, (Added) => {
+watch(useAddedTopping.addedTopping, () => {
     previousAddedLength = newAddedLength
     newAddedLength = useAddedTopping.addedTopping.length
 
@@ -174,6 +177,8 @@ watch(useAddedTopping.addedTopping, (Added) => {
             ease: "power4.out",
             duration: 1.2,
         })
+        const toppingPrice = topping.find(top => top.name === newAdded).price
+        totalToppingsPrice.value += toppingPrice
     }
     else if (newAddedLength < previousAddedLength){
         const removed = useAddedTopping.removedTopping
@@ -187,7 +192,12 @@ watch(useAddedTopping.addedTopping, (Added) => {
             ease: "power4.out",
             duration: 1.2,
         })
+        
+        const toppingPrice = topping.find(top => top.name === removed).price
+        totalToppingsPrice.value -= toppingPrice
     }
+
+    counterAnim(newPrice.value, data[currentDisplay.display].price+addedSizePrice.value+totalToppingsPrice.value)
 })
 
 const swiped = () => {
@@ -253,7 +263,7 @@ const slidePizza = (direction: 'left' | 'right') => {
         })
     }
 
-    counterAnim(newPrice.value, data[currentDisplay.display].price + addedSizePrice.value)
+    counterAnim(newPrice.value, data[currentDisplay.display].price+addedSizePrice.value+totalToppingsPrice.value)
 }
 </script>
 
