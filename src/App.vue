@@ -36,18 +36,15 @@ const titles = data.map(d => d.name)
   }
   .grid-top{
     width: 100vw;
-    height: 15vh;
-    /* background: yellow; */
+    height: 10vh;
   }
   .grid-center{
     width: 60vw;
     height: 85vh;
-    background: orange;
   }
   .grid-bottom{
     width: 35vw;
     height: 85vh;
-    background: blue;
   }
 }
 

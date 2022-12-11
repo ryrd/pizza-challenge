@@ -4,8 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+::-moz-selection {
+  color: black;
+  background: transparent;
+}
+::selection {
+  color: black;
+  background: transparent;
+}
 body{
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 .border-test {
     @apply border border-red-400

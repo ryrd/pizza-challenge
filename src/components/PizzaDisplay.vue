@@ -146,11 +146,11 @@ onMounted(() => {
         swiped()
     })
 
-    pizzaSlideDetector.value?.addEventListener('drag', e => {
+    pizzaSlideDetector.value?.addEventListener('pointerdown', e => {
         touchStart = e.clientX;
     })
     
-    pizzaSlideDetector.value?.addEventListener('dragend', e => {
+    pizzaSlideDetector.value?.addEventListener('pointerup', e => {
         touchEnd = e.clientX;
         swiped()
     })
@@ -219,6 +219,8 @@ const swiped = () => {
 const sliderTimelineAnim = gsap.timeline()
 
 const slidePizza = (direction: 'left' | 'right') => {
+    const orientation = window.matchMedia("(orientation: portrait)").matches ? 100 : 60
+
     sliderTimelineAnim
         .to([pizzaRef.value, pizzaToppingRef.value], {
             scale: currentPizzaSize*.8,
@@ -231,7 +233,7 @@ const slidePizza = (direction: 'left' | 'right') => {
             duration: .5,
         }, '-=.4')
         .to(pizzaSlider.value, {
-            x: `-${100*currentDisplay.display}vw`,
+            x: `-${orientation*currentDisplay.display}vw`,
             ease: "power4.out",
             duration: .8,
         }, '<')
@@ -268,8 +270,8 @@ const slidePizza = (direction: 'left' | 'right') => {
 </script>
 
 <template>
-<main class="relative h-full pt-[5%] landscape:pt-0 overflow-hidden border-test2">
-    <div class="relative h-[50%] landscape:h-[65%] bg-blue-300 flex justify-center items-center">
+<main class="relative h-full pt-[5%] landscape:pt-0 landscape:overflow-hidden">
+    <div class="relative h-[50%] landscape:h-[65%] flex justify-center items-center">
         
         <div class="absolute left-1/2 -translate-x-1/2 w-[90%] landscape:w-[50%] h-[180%] landscape:h-[70%]" ref="leafage">
             <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 top-20">
@@ -287,19 +289,19 @@ const slidePizza = (direction: 'left' | 'right') => {
              class="w-[60%] landscape:w-[40%] landscape:top-[15%] absolute drop-shadow-lg"
              ref="plate">
 
-        <div class="w-full h-[200%] landscape:h-[100%] border border-slate-500 absolute left-1/2 -translate-x-1/2 z-20" ref="pizzaSlideDetector"/>
+        <div class="w-full h-[200%] landscape:h-[100%] absolute left-1/2 -translate-x-1/2 z-20" ref="pizzaSlideDetector"/>
 
         <div class="absolute h-[90%] landscape:h-full top-0 left-0 flex items-center t-1/2 mt-[3%]"
              :class="`w-[${100*data.length}%]`"
              ref="pizzaSlider">
 
             <div v-for="pizza in data" :key="pizza.name"
-                 class="w-screen landscape:w-[60vw] flex justify-center -translate-y-[3%] landscape:translate-y-[0%] border-test">
+                 class="w-screen landscape:w-[60vw] flex justify-center -translate-y-[3%] landscape:translate-y-[0%]">
 
                 <img class="w-[55%] landscape:w-[35%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef"/>
 
                 <div v-for="top in topping" :key="top.name"
-                     class="h-full bg-emerald-400 absolute left-1/2 top-3 landscape:top-0 -translate-x-1/2 opacity-0" 
+                     class="h-full absolute left-1/2 top-3 landscape:top-0 -translate-x-1/2 opacity-0 landscape:w-[35%] landscape:flex landscape:items-center" 
                      :id="`topping-${top.name}`"
                      ref="pizzaToppingRef">
                     <img :src="`src/assets/${top.img}`" class="absolute left-1/2 -translate-x-1/2">
@@ -309,22 +311,22 @@ const slidePizza = (direction: 'left' | 'right') => {
 
         </div>        
         
-        <button class="absolute left-[18%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 -translate-x-4 border border-black border-opacity-5 z-30">
+        <button class="absolute left-[18%] landscape:top-[55%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 -translate-x-4 border border-black border-opacity-5 z-30">
             <img src="../assets/minus.svg" class="w-[80%]">
         </button>
-        <button class="absolute right-[18%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 translate-x-4 border border-black border-opacity-5 z-30">
+        <button class="absolute right-[18%] landscape:top-[55%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 translate-x-4 border border-black border-opacity-5 z-30">
             <img src="../assets/plus.svg" class="w-[80%]">
         </button>
         
     </div>
 
-    <div class="flex justify-center items-center pt-[20%] landscape:pt-[10%]">
+    <div class="flex justify-center items-center pt-[20%] landscape:pt-[8%]">
         <h2 class="text-[180%] font-fancy font-bold">
             ${{newPrice}}
         </h2>
     </div>
 
-    <div class="flex justify-between items-center w-1/2 max-w-md font-fancy relative left-1/2 -translate-x-1/2">
+    <div class="flex justify-between items-center w-1/2 landscape:w-[35%] landscape:pt-[1%] max-w-md font-fancy relative left-1/2 -translate-x-1/2">
         <button class="rounded-full flex justify-center items-center h-10 w-10 p-3 mr-3 transition bg-transparent border border-black border-opacity-20 z-10"
                 @click="setSize('S', 0)">
             S

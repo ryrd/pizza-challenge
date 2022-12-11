@@ -23,6 +23,7 @@ const toppingSlider = ref<HTMLDivElement|null>(null)
 const toppingMenu = ref<HTMLButtonElement[]|null>(null)
 const toppingSlideAmount = 100/topping.length
 let outsideMain3Topping: HTMLButtonElement[]
+let touchStart : number, touchEnd : number
 
 onMounted(() => {
     gsap.set(toppingSlider.value, {
@@ -50,9 +51,17 @@ onMounted(() => {
         touchEnd = e.changedTouches[0].screenX;
         swiped()
     })
+
+    toppingContainer.value?.addEventListener('pointerdown', e => {
+        touchStart = e.clientX;
+    })
+    
+    toppingContainer.value?.addEventListener('pointerup', e => {
+        touchEnd = e.clientX;
+        swiped()
+    })
 })
 
-let touchStart : number, touchEnd : number
 const swiped = () => {
     if (touchEnd < touchStart) {
         if (useToppingDisplay.toppingDisplay === topping.length-1) return
@@ -116,7 +125,7 @@ const slideTopping = (direction: 'left' | 'right') => {
 }
 
 const totalSelectedToppingRef = ref<number>(0)
-const toppingClick = (menu: string, i : number) => {
+const toppingClick = (menu: string, i: number) => {
     if ( totalSelectedToppingRef.value === 3 && !topping[i].selected) return
     
     gsap.to(toppingMenu.value[i].children, {
@@ -131,7 +140,6 @@ const toppingClick = (menu: string, i : number) => {
     
     totalSelectedToppingRef.value = topping.filter(top => top.selected === true).length
 }
-
 </script>
 
 <template>
@@ -140,8 +148,8 @@ const toppingClick = (menu: string, i : number) => {
         {{totalSelectedToppingRef}}/3
     </div>
     
-    <div class="pt-1 relative" ref="toppingContainer">
-        <img src="../assets/curve.svg" class="absolute left-0 -bottom-[90%] w-full -translate-y-1/4"/>
+    <div class="pt-1 relative topping-container" ref="toppingContainer">
+        <img src="../assets/curve.svg" class="absolute left-0 -bottom-[90%] w-full -translate-y-1/4 landscape:-translate-y-0"/>
         <div class="translate-x-[50%] -translate-y-[40%]">
             <div class="flex h-[10vh]"
                  :class="`w-[${topping.length*25}vw]`"
@@ -157,10 +165,20 @@ const toppingClick = (menu: string, i : number) => {
                 </button>
             </div>
         </div>
-         <button class="bg-black bg-opacity-95 hover:bg-opacity-80 absolute left-1/2 rounded -bottom-[70%] -translate-x-1/2 flex justify-center items-center h-10 w-[38%] md:h-14 md:w-[22%] py-5">
+         <button class="bg-black bg-opacity-95 hover:bg-opacity-80 absolute left-1/2 rounded -bottom-[70%] -translate-x-1/2 flex justify-center items-center h-10 w-[38%] md:h-14 md:w-[22%] landscape:w-[30%] landscape:translate-y-[40%] py-5">
             <img src="../assets/cart.svg" class="w-[16%] mr-3">
             <span class="text-white font-fancy md:text-[120%]">add to cart</span>
          </button>
     </div>
 </div>
 </template>
+
+<style>
+.topping-container{
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+</style>
