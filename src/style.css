@@ -13,7 +13,12 @@
   background: transparent;
 }
 body{
+    overflow-x: hidden;
+}
+@media (orientation: landscape) {
+   body{
     overflow: hidden;
+   }
 }
 .border-test {
     @apply border border-red-400
