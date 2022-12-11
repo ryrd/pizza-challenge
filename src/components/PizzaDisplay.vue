@@ -146,11 +146,11 @@ onMounted(() => {
         swiped()
     })
 
-    pizzaSlideDetector.value?.addEventListener('pointerdown', e => {
+    pizzaSlideDetector.value?.addEventListener('mousedown', e => {
         touchStart = e.clientX;
     })
     
-    pizzaSlideDetector.value?.addEventListener('pointerup', e => {
+    pizzaSlideDetector.value?.addEventListener('mouseup', e => {
         touchEnd = e.clientX;
         swiped()
     })
@@ -274,18 +274,18 @@ const slidePizza = (direction: 'left' | 'right') => {
     <div class="relative h-[50%] landscape:h-[65%] flex justify-center items-center">
         
         <div class="absolute left-1/2 -translate-x-1/2 w-[90%] landscape:w-[50%] h-[180%] landscape:h-[70%]" ref="leafage">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 top-20">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-7 absolute right-20 top-6 rotate-45">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 bottom-10 rotate-90">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-7 absolute left-12 bottom-24">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-5 absolute left-20 bottom-10 rotate-125">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-7 absolute left-8 bottom-12 rotate-45">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-5 absolute left-12 top-12 rotate-45">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-5 absolute left-1/2 bottom-1 rotate-90">
-            <img src="../assets/leaf.webp" class="drop-shadow-2xl w-5 absolute left-36 top-1 rotate-45">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 top-20">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-7 absolute right-20 top-6 rotate-45">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-8 absolute right-8 bottom-10 rotate-90">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-7 absolute left-12 bottom-24">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-5 absolute left-20 bottom-10 rotate-125">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-7 absolute left-8 bottom-12 rotate-45">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-5 absolute left-12 top-12 rotate-45">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-5 absolute left-1/2 bottom-1 rotate-90">
+            <img src="/leaf.webp" class="drop-shadow-2xl w-5 absolute left-36 top-1 rotate-45">
         </div>
 
-        <img src="../assets/plate.webp"
+        <img src="/plate.webp"
              class="w-[60%] landscape:w-[40%] landscape:top-[15%] absolute drop-shadow-lg"
              ref="plate">
 
@@ -298,24 +298,24 @@ const slidePizza = (direction: 'left' | 'right') => {
             <div v-for="pizza in data" :key="pizza.name"
                  class="w-screen landscape:w-[60vw] flex justify-center -translate-y-[3%] landscape:translate-y-[0%]">
 
-                <img class="w-[55%] landscape:w-[35%]" :src="`src/assets/${pizza.img}`" ref="pizzaRef"/>
+                <img class="w-[55%] landscape:w-[35%]" :src="`/${pizza.img}`" ref="pizzaRef"/>
 
                 <div v-for="top in topping" :key="top.name"
                      class="h-full absolute left-1/2 top-3 landscape:top-0 -translate-x-1/2 opacity-0 landscape:w-[35%] landscape:flex landscape:items-center" 
                      :id="`topping-${top.name}`"
                      ref="pizzaToppingRef">
-                    <img :src="`src/assets/${top.img}`" class="absolute left-1/2 -translate-x-1/2">
-                    <img :src="`src/assets/${top.img}`" class="rotate-180">
+                    <img :src="`/${top.img}`" class="absolute left-1/2 -translate-x-1/2">
+                    <img :src="`/${top.img}`" class="rotate-180">
                 </div>
             </div>
 
         </div>        
         
         <button class="absolute left-[18%] landscape:top-[55%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 -translate-x-4 border border-black border-opacity-5 z-30">
-            <img src="../assets/minus.svg" class="w-[80%]">
+            <img src="/minus.svg" class="w-[80%]">
         </button>
         <button class="absolute right-[18%] landscape:top-[55%] bg-white backdrop-blur opacity-90 flex justify-center items-center rounded-full shadow-xl w-8 h-8 p-1 translate-x-4 border border-black border-opacity-5 z-30">
-            <img src="../assets/plus.svg" class="w-[80%]">
+            <img src="/plus.svg" class="w-[80%]">
         </button>
         
     </div>

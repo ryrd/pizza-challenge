@@ -52,11 +52,11 @@ onMounted(() => {
         swiped()
     })
 
-    toppingContainer.value?.addEventListener('pointerdown', e => {
+    toppingContainer.value?.addEventListener('mousedown', e => {
         touchStart = e.clientX;
     })
     
-    toppingContainer.value?.addEventListener('pointerup', e => {
+    toppingContainer.value?.addEventListener('mouseup', e => {
         touchEnd = e.clientX;
         swiped()
     })
@@ -149,7 +149,7 @@ const toppingClick = (menu: string, i: number) => {
     </div>
     
     <div class="pt-1 relative topping-container" ref="toppingContainer">
-        <img src="../assets/curve.svg" class="absolute left-0 -bottom-[90%] w-full -translate-y-1/4 landscape:-translate-y-0"/>
+        <img src="/curve.svg" class="absolute left-0 -bottom-[90%] w-full -translate-y-1/4 landscape:-translate-y-0"/>
         <div class="translate-x-[50%] -translate-y-[40%]">
             <div class="flex h-[10vh]"
                  :class="`w-[${topping.length*25}vw]`"
@@ -159,14 +159,14 @@ const toppingClick = (menu: string, i: number) => {
                         class="-translate-x-[50%] flex justify-center items-center"
                         @click="i === useToppingDisplay.toppingDisplay && toppingClick(top.name,i)"
                         ref="toppingMenu">
-                    <img :src="`src/assets/${top.imgTop}`" 
+                    <img :src="`/${top.imgTop}`" 
                          class="drop-shadow-lg origin-top w-[45%]"
                     >
                 </button>
             </div>
         </div>
          <button class="bg-black bg-opacity-95 hover:bg-opacity-80 absolute left-1/2 rounded -bottom-[70%] -translate-x-1/2 flex justify-center items-center h-10 w-[38%] md:h-14 md:w-[22%] landscape:w-[30%] landscape:translate-y-[40%] py-5">
-            <img src="../assets/cart.svg" class="w-[16%] mr-3">
+            <img src="/cart.svg" class="w-[16%] mr-3">
             <span class="text-white font-fancy md:text-[120%]">add to cart</span>
          </button>
     </div>
